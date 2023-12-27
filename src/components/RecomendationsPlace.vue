@@ -1,12 +1,7 @@
 <template>
   <div>
     <div ref="map" id="map" class="h-screen w-full relative">-</div>
-    <button
-      @click="getCoordinates()"
-      class="py-2 absolute top-0 px-10 bg-amber-600 ml-10 text-white uppercase font-medium"
-    >
-      get coordinates
-    </button>
+
   </div>
 </template>
 
@@ -14,7 +9,7 @@
 import { ref, onMounted } from "vue";
 import { Loader } from "@googlemaps/js-api-loader";
 export default {
-  setup() {
+  setup(_, {emit}) {
     const map = ref(null);
     const marker = ref(null);
 
@@ -40,6 +35,7 @@ export default {
         marker.value.addListener("dragend", () => {
           const position = marker.value.getPosition();
           marker.value.setPosition(position);
+          getCoordinates();
         });
       });
     };
@@ -49,7 +45,7 @@ export default {
     });
     const getCoordinates = () => {
       const position = marker.value.getPosition();
-      $emit("get-coordinates", {
+      emit("get-coordinates", {
         lat: position.lat(),
         lng: position.lng(),
       });
