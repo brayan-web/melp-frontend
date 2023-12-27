@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper flex flex-wrap">
+    <div class="wrapper flex flex-wrap z-5">
         <Card v-for="item in 10"/>
     </div>
 </template>

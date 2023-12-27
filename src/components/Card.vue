@@ -1,6 +1,6 @@
 <template>
     <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4  p-3">
-        <div class="relative flex w-full  flex-col rounded-xl  bg-white bg-clip-border text-gray-700 shadow-lg">
+        <div class="relative flex w-full  flex-col rounded-xl  bg-[#283046] bg-clip-border text-gray-300 shadow-lg">
   <div
     class="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
     <img
@@ -37,7 +37,7 @@
         5.0
       </p>
     </div>
-    <p class="block font-sans text-base antialiased font-light leading-relaxed text-gray-700">
+    <p class="block font-sans text-base antialiased font-light leading-relaxed text-gray-300">
       Enter a freshly updated and thoughtfully furnished peaceful home
       surrounded by ancient trees, stone walls, and open meadows.
     </p>
