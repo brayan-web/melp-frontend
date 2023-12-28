@@ -141,7 +141,7 @@
 
    
       
-      <Restaurant v-for="(restaurant, index) in restaurants" :restaurant="restaurant" :key="index"/>
+      <!-- <Restaurant v-for="(restaurant, index) in restaurants" :restaurant="restaurant" :key="index"/> -->
     
   </div>
 </template>
@@ -153,6 +153,8 @@ import { Menu, MenuButton, MenuItem, MenuItems,  Listbox,ListboxLabel,ListboxBut
 import Alert from '../../../components/Alert.vue';
 import Restaurant from './Restaurant.vue'
 import { apiUrl2 } from '@/api/api.js';
+import { Loader } from "@googlemaps/js-api-loader";
+
 const raiting = [
   { name: "Order By Raiting", with: "", value: "" },
   { name: "5", with: "100", value: 5 },
@@ -201,7 +203,7 @@ export default {
       if(radius.value !== null && selectedRaiting.value.name !== '' && valorLocal.value !== null){
         const { lat, lng} =  valorLocal.value;
            try {
-        const resp = await axios.get(apiUrl2, {
+        const resp = await axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {
           params: {  
             location: `${lat}, ${lng}`,
             radius: 1000,

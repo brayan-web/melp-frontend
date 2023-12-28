@@ -11,6 +11,7 @@
     setup(_, {emit}) {
       const map = ref(null);
       const marker = ref(null);
+      const placesService = ref(null);
   
       const initMap = () => {
         const loader = new Loader({
@@ -40,17 +41,45 @@
       };
   
       onMounted(() => {
-        initMap();
-        console.log(process.env)
+        initMap();  
       });
+     const  searchNearbyPlaces = () => {
+      // Define el tipo de lugar y la ubicación para buscar lugares cercanos
+      const position = marker.value.getPosition();
+
+      const request = {
+        location: { lat: position.lat(), lng: position.lng() },
+        radius: '500', // Radio en metros
+        type: ['restaurant'], // Puedes cambiar esto según tus necesidades
+      };
+      
+      placesService.value = new google.maps.places.PlacesService(map.value);
+
+      // Realiza la búsqueda de lugares cercanos
+     placesService.value.nearbySearch(request, (results, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+          for (let i = 0; i < results.length; i++) {
+            // Puedes acceder a los detalles del lugar en results[i]
+            console.log(results[i]);
+          }
+        }
+      });
+    }
+
+    const exampleEvent = () => {
+      const obj = { id: 1, name: "brayan"}
+      emit("event-example", obj)
+    }
+
       const getCoordinates = () => {
         const position = marker.value.getPosition();
         emit("get-coordinates", {
           lat: position.lat(),
           lng: position.lng(),
         });
+        searchNearbyPlaces();
       };
-      return { map, marker, initMap, getCoordinates };
+      return { map, marker, initMap, getCoordinates, exampleEvent };
     },
   };
   </script>
