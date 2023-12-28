@@ -9,21 +9,12 @@ module.exports = defineConfig({
         changeOrigin: true,
         pathRewrite: {
           '^/maps/api': '/maps/api',
-        },
-        headers: {
-          'Access-Control-Allow-Origin': 'https://brayan-web.github.io/',
-          
-        },
-      
+        },    
       },
         '/data_melp.json': {
-          target: process.env.VUE_APP_API_URL,
+          target: 'https://recruiting-datasets.s3.us-east-2.amazonaws.com',
           changeOrigin: true,
-          pathRewrite: { '^/data_melp.json': '' },
-          headers: {
-            'Access-Control-Allow-Origin': 'https://brayan-web.github.io/',
-          
-          },
+          pathRewrite: { '^/data_melp.json': '/data_melp.json' },
         },
      
       }
