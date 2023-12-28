@@ -11,7 +11,7 @@ module.exports = defineConfig({
           '^/maps/api': '/maps/api',
         },
         headers: {
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': 'https://brayan-web.github.io/',
           
         },
       
@@ -21,7 +21,7 @@ module.exports = defineConfig({
           changeOrigin: true,
           pathRewrite: { '^/data_melp.json': '' },
           headers: {
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'https://brayan-web.github.io/',
           
           },
         },
