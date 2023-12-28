@@ -1,5 +1,4 @@
 <template>
- 
     <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 p-3">
       <div
         class="relative flex w-full flex-col rounded-xl bg-[#283046] bg-clip-border text-gray-300 shadow-lg"
@@ -83,7 +82,7 @@
               </svg>
 
               <span class="ml-2 text-md"
-                >Mariano Entrada, Mérida Alfredotown, Durango</span
+                > {{ restaurant.address.street  }}, {{ restaurant.address.city  }} {{ restaurant.address.state  }}</span
               >
             </p>
 
@@ -108,6 +107,7 @@
           </div>
           <div class="mt-5">
             <button
+            @click="openModal(restaurant)"
               class="text-[#65FA9E] px-5 py-2.5 border-[#65FA9E] border hover:text-white hover:bg-[#408168] flex items-center rounded-lg"
             >
               See more
@@ -133,6 +133,99 @@
               </svg>
             </button>
           </div>
+          <TransitionRoot appear :show="isOpen" as="template">
+    <Dialog as="div" @close="closeModal" class="relative z-10">
+      <TransitionChild
+        as="template"
+        enter="duration-300 ease-out"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="duration-200 ease-in"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
+      >
+        <div class="fixed inset-0 bg-black/25" />
+      </TransitionChild>
+
+      <div class="fixed inset-0 overflow-y-auto">
+        <div
+          class="flex min-h-full items-center justify-center p-4 text-center"
+        >
+          <TransitionChild
+            as="template"
+            enter="duration-300 ease-out"
+            enter-from="opacity-0 scale-95"
+            enter-to="opacity-100 scale-100"
+            leave="duration-200 ease-in"
+            leave-from="opacity-100 scale-100"
+            leave-to="opacity-0 scale-95"
+          >
+            <DialogPanel
+              class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+            >
+              <DialogTitle
+                as="h3"
+                class="text-lg font-medium leading-6 text-gray-900"
+              >
+                More details
+              </DialogTitle>
+              <div class="mt-2">
+                <p class="text-md text-gray-500 py-2">
+                 Name: <span class="font-semibold">
+                    {{ detailPlace.name }}
+                 </span> 
+                </p>
+
+                <p class="text-md text-gray-500 py-2">
+                 Site: <span class="font-semibold">
+                    {{ detailPlace.contact.site }}
+                 </span> 
+                </p>
+
+                
+                <p class="text-md text-gray-500 py-2">
+                 email: <span class="font-semibold">
+                    {{ detailPlace.contact.email }}
+                 </span> 
+                </p>
+
+                
+                <p class="text-md text-gray-500 py-2">
+                 Phone: <span class="font-semibold">
+                    {{ detailPlace.contact.phone }}
+                 </span> 
+                </p>
+
+                <p class="text-md text-gray-500 py-2">
+                 Address: <span class="font-semibold">
+                    {{ detailPlace.address.street  }}, {{ detailPlace.address.city  }} {{ detailPlace.address.state  }}
+                 </span> 
+                </p>
+              </div>
+
+              <div class="mt-5 flex justify-between items-center ">
+                <button
+                  type="button"
+                  class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  @click="closeModal"
+                >
+                  Got it, thanks!
+                </button>
+
+                <div>
+    <a href="#" class="flex items-center justify-center w-full px-4 py-2  space-x-3 text-sm text-center bg-blue-500 text-white transition-colors duration-200 transform border rounded-lg dark:text-gray-300 dark:border-gray-300 hover:bg-gray-600 dark:hover:bg-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+        </svg>
+        <span class="text-sm text-white dark:text-gray-200">Shared whit Facebook</span></a>
+</div>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </div>
+    </Dialog>
+  </TransitionRoot>
         </div>
       </div>
     </div>
@@ -140,21 +233,69 @@
 </template>
 
 <script>
+import {
+  TransitionRoot,
+  TransitionChild,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+} from '@headlessui/vue'
+import { ref } from 'vue'
+
 export default {
     props:{
         restaurant:{
             type: Object
         }
     },
-    computed: {
-      
+    components: {
+ TransitionRoot,
+  TransitionChild,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+    },
+    data(){
+        return {
+        isOpen: false,
+        detailPlace: {
+            name: '',
+            contact: {
+                site: '',
+                email: '',
+                phone: ''
+            },
+            address: {
+                street: '',
+                city: '',
+                state: '',
+            }
+        }
+
+        }
     },
     methods: {
 
-    },
-    mounted(){
-       
+             closeModal() {
+            this.isOpen = false
+            
+            },
+             openModal(restaurant) {
+            this.isOpen = true
+            // const { name, contact, address } =  this.detailPlace
+            // const { site, email, phone } = contact
+            // const { street, city, state } = address
+            this.detailPlace.name = restaurant.name;
+            this.detailPlace.contact.site = restaurant.contact.site
+            this.detailPlace.contact.email = restaurant.contact.email
+            this.detailPlace.contact.phone = restaurant.contact.phone
+            this.detailPlace.address.street = restaurant.address.street
+            this.detailPlace.address.city = restaurant.address.city
+            this.detailPlace.address.state = restaurant.address.state
+
+            }
     }
+
 }
 </script>
 

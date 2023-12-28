@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="z-10">
+    
+    <div class="flex justify-between wrapper mt-5 mb-5 p-3">
+        <div class="z-10 w-auto">
       <Listbox v-model="selectedRaiting">
         <div class="relative mt-1">
           <ListboxButton
@@ -45,7 +47,7 @@
               >
                 <li
                   :class="[
-                    active ? 'bg-[#7267f07d] text-gray-900' : 'text-gray-900',
+                    active ? 'bg-[#7267f07d] text-gray-300' : 'text-gray-300',
                     'relative cursor-default select-none py-2 pl-10 pr-4',
                   ]"
                 >
@@ -102,8 +104,12 @@
         </div>
       </Listbox>
     </div>
-    <!-- {{ restaurantsByRate }} -->
+        <div>
+            <button @click="$router.push({name: 'nereast-restaurant'})" class=" rounded-md text-white bg-[#7367F0] text-center py-3 px-10 uppercase">search for recommendations</button>
+        </div>
+    </div>
     <div class="wrapper flex flex-wrap z-5">
+       
     <Restaurants v-for="restaurant in restaurantsByRate" :restaurant="restaurant" :key="restaurant.id"/>
     </div>
   </div>
