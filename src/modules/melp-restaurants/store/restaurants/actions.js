@@ -1,6 +1,7 @@
-import restaurantsApi from '@/api/restaurantsApi'
+import restaurantsApi from '@/api/restaurantsApi';
+import { apiUrl1, apiUrl2 } from '@/api/api.js';
 import axios from 'axios';
 export const loadRestaurants = async({commit}) => {
-    const { data } = await axios.get('/data_melp.json'); 
+    const { data } = await axios.get(apiUrl1); 
     commit('setRestaurants', data)
  }
