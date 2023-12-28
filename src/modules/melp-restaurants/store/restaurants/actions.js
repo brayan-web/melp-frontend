@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 const baseURL = process.env.NODE_ENV === 'production'
-  ? 'https://recruiting-datasets.s3.us-east-2.amazonaws.com/data_melp.json'
+  ? 'https://recruiting-datasets.s3.us-east-2.amazonaws.com'
   : 'http://localhost:8080'; 
 
   const api = axios.create({
