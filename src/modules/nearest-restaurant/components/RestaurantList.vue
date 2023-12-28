@@ -202,7 +202,7 @@ export default {
         const { lat, lng} =  valorLocal.value;
            try {
         const resp = await axios.get(apiUrl2, {
-          params: {
+          params: { 
             location: `${lat}, ${lng}`,
             radius: 1000,
             key: "AIzaSyBZsp-0nujrptZmsbuOTkjqq8R-X4G8FQE",
