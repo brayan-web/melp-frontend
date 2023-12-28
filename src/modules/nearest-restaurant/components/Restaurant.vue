@@ -8,7 +8,6 @@
         class="h-auto border border-gray-600 text-left py-10 hover:bg-[#7267f09a]"
       >
         <h1 class="text-white">{{ restaurant.name }}</h1>
-        <h1 class="text-white">{{ adress }}</h1>
       </div>
     </div>
   </div>
@@ -29,31 +28,7 @@ export default {
     const address = ref(null);
     watch(() => {
       places.value = props.restaurant;
-    });
-
-    const getAddress = () => {
-        const loader = new Loader({
-          apiKey: process.env.API_GOOGLE,
-        });
-  
-        loader.load().then(async () => {
-          const { Map } = await google.maps.importLibrary("maps");
-        const coordinates = {
-        lat: places.geometry.location.lat,
-        lng: places.geometry.location.lng,
-      };
-          const geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ location: coordinates }, (results, status) => {
-        if (status === 'OK' && results.length > 0) {
-          address.value = results[0].formatted_address;
-        } else {
-          console.error('No se pudo obtener la dirección');
-        }
-      });
-        });
-    }
-    getAddress();
-    
+    }); 
     return {
       restaurant: places,
       address

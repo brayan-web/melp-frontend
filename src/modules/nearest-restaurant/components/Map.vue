@@ -14,7 +14,7 @@
   
       const initMap = () => {
         const loader = new Loader({
-          apiKey: process.env.API_GOOGLE,
+          apiKey: process.env.VUE_APP_API_KEY,
         });
   
         loader.load().then(async () => {
@@ -41,6 +41,7 @@
   
       onMounted(() => {
         initMap();
+        console.log(process.env)
       });
       const getCoordinates = () => {
         const position = marker.value.getPosition();
