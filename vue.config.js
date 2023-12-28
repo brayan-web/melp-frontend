@@ -1,6 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
+  publicPath: process.env.NODE_ENV === 'production' ? '/melp-frontend/' : '/',
   devServer: {
     proxy: {
       '/maps/api': {
@@ -11,13 +12,10 @@ module.exports = defineConfig({
         },
       },
         '/data_melp.json': {
-          target: 'https://recruiting-datasets.s3.us-east-2.amazonaws.com',
+          target: process.env.VUE_APP_API_URL,
           changeOrigin: true,
           pathRewrite: { '^/data_melp.json': '' },
         },
-    
-      // 'https://recruiting-datasets.s3.us-east-2.amazonaws.com'
-
       }
   },
 })
