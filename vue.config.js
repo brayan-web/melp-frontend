@@ -14,7 +14,7 @@ module.exports = defineConfig({
         '/data_melp.json': {
           target: 'https://recruiting-datasets.s3.us-east-2.amazonaws.com',
           changeOrigin: true,
-          pathRewrite: { '^/data_melp.json': '/data_melp.json' },
+          pathRewrite: { '^/data_melp.json': '' },
         },
      
       }

@@ -1,4 +1,4 @@
-import restaurantsApi from '@/api/restaurantsApi';
+// import restaurantsApi from '@/api/restaurantsApi';
 // import { apiUrl1 } from '@/api/api.js';
 import axios from 'axios';
 
