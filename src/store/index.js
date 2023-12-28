@@ -1,14 +1,11 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
+import restaurantsModule from '../modules/melp-restaurants/store/restaurants';
+const store = createStore({
+    modules: {
+        restaurant: restaurantsModule,
+      
+    }
+});
 
-export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+
+export default store;

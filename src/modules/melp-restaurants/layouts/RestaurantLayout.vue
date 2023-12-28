@@ -1,41 +1,12 @@
 <template>
-  <div class="w-full text-center overflow-hidden overflow-y-scroll  h-screen">
-    <div class="mx-auto w-[90%]" v-show="alert.set">
-      <Alert :alert="alert" />
-    </div>
-    <span class="text-gray-300">
-      Please select a site on the map, a range and a classification</span
-    >
-    <div class="mx-auto w-[90%]">
-      <label
-        for="radius"
-        class="text-left block mb-2 text-sm font-medium text-gray-300 dark:text-white"
-        >Enter radius</label
-      >
-      <input
-        v-model="radius"
-        type="number"
-        id="radius"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-        placeholder="radius"
-        required
-      />
-    </div>
-    <div class="z-10 w-[90%] mx-auto mt-5">
-      <label
-        for="raiting"
-        class="text-left block mb-2 text-sm font-medium text-gray-300 dark:text-white"
-        >Select a raiting</label
-      >
-
-      <Listbox id="raiting" v-model="selectedRaiting">
+  <div>
+    <div class="z-10">
+      <Listbox v-model="selectedRaiting">
         <div class="relative mt-1">
           <ListboxButton
             class="relative w-full cursor-default rounded-lg bg-[#7367F0] py-3 px-10 text-left hover:shadow-[0_10px_20px_-0px_rgba(115,103,240,0.3)] sm:text-sm"
           >
-            <span class="block truncate text-white">{{
-              selectedRaiting.name
-            }}</span>
+            <span class="block truncate text-white">Order by Raiting</span>
             <span
               class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
             >
@@ -131,27 +102,18 @@
         </div>
       </Listbox>
     </div>
-
-    <button
-      @click="fetchPlaces"
-      class="py-2 w-auto mb-5 mt-10 px-10 bg-amber-600 text-white uppercase font-medium"
-    >
-      search places
-    </button>
-
-   
-      
-      <Restaurant v-for="(restaurant, index) in restaurants" :restaurant="restaurant" :key="index"/>
-    
+    <!-- {{ restaurantsByRate }} -->
+    <div class="wrapper flex flex-wrap z-5">
+    <Restaurants v-for="restaurant in restaurantsByRate" :restaurant="restaurant" :key="restaurant.id"/>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref, watch } from "vue";
-import axios from "axios";
+import Restaurants from '../views/Restaurants';
 import { Menu, MenuButton, MenuItem, MenuItems,  Listbox,ListboxLabel,ListboxButton,ListboxOptions,ListboxOption, } from '@headlessui/vue'
-import Alert from '../../../components/Alert.vue';
-import Restaurant from './Restaurant.vue'
+import {  ref } from 'vue';
+import { mapGetters } from 'vuex'
 const raiting = [
   { name: "Order By Raiting", with: "", value: "" },
   { name: "5", with: "100", value: 5 },
@@ -161,8 +123,8 @@ const raiting = [
   { name: "1", with: "20", value: 1 },
 ];
 export default {
-  components: {
-    Menu,
+    components: {
+        Menu,
    MenuButton,
    MenuItems,
    MenuItem,
@@ -171,73 +133,32 @@ export default {
    ListboxButton,
    ListboxOptions,
    ListboxOption,
-   Alert,
-   Restaurant
-  },
-  props: {
-    coordinates: {
-      type: Object,
-      default: '19.69806917114423, -100.5609753408169'
+   Restaurants
+    },
+    data(){
+        return{
+            selectedRaiting: raiting[0],
+            raiting: [
+            { name: "Order By Raiting", with: "", value: "" },
+            { name: "5", with: "100", value: 5 },
+            { name: "4", with: "80", value: 4 },
+            { name: "3", with: "60", value: 3 },
+            { name: "2", with: "40", value: 2 },
+            { name: "1", with: "20", value: 1 },
+            ]
+        }
+    },
+    computed: {
+        ...mapGetters('restaurant',{
+            restaurants: "getRestaurantsByRate"
+        }),
+        restaurantsByRate(){
+            return this.restaurants(this.selectedRaiting.value)
+        }
+    },
+
+    mounted(){
     }
-  },
-  setup(props) {
-    console.log("list",props.coordinates)
-    const valorLocal = ref(props.coordinates);
-    const radius = ref(null);
-    const selectedRaiting = ref(raiting[0]);
-    const restaurants = ref([])
-    const alert = ref({
-      message: "",
-      type: "",
-      set: false,
-    });
-    watch(() => {
-      
-      valorLocal.value = props.coordinates;
-    });
 
-    const fetchPlaces = async() => {
-      if(radius.value !== null && selectedRaiting.value.name !== '' && valorLocal.value !== null){
-        const { lat, lng} =  valorLocal.value;
-           try {
-        const resp = await axios.get("/maps/api/place/nearbysearch/json", {
-          params: {
-            location: `${lat}, ${lng}`,
-            radius: 1000,
-            key: "AIzaSyBZsp-0nujrptZmsbuOTkjqq8R-X4G8FQE",
-            type: ["restaurant"],
-            minPriceLevel: 3,
-          },
-        });
-        restaurants.value = resp.data.results;
-        console.log(restaurants.value)
-      } catch (error) {
-        console.error("Error al obtener lugares:", error);
-      }
-      }else{
-        alert.value.message = 'The fields are required, please make sure to fill them out.'
-        alert.value.type = 'danger'
-        alert.value.set = true;
-
-
-        setTimeout(() => {
-          alert.value.set = false;
-        }, 3000)
-     
-      }
-     
-    };
-
-
-    return {
-      raiting,
-      alert,
-      radius,
-      selectedRaiting,
-      fetchPlaces,
-      coordinates: valorLocal,
-      restaurants
-    };
-  },
-};
+}
 </script>
