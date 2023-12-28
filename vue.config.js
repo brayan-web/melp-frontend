@@ -10,12 +10,22 @@ module.exports = defineConfig({
         pathRewrite: {
           '^/maps/api': '/maps/api',
         },
+        headers: {
+          'Access-Control-Allow-Origin': 'https://brayan-web.github.io/melp-frontend/#/',
+          
+        },
+      
       },
         '/data_melp.json': {
           target: process.env.VUE_APP_API_URL,
           changeOrigin: true,
           pathRewrite: { '^/data_melp.json': '' },
+          headers: {
+            'Access-Control-Allow-Origin': 'https://brayan-web.github.io/melp-frontend/#/',
+          
+          },
         },
+     
       }
   },
 })

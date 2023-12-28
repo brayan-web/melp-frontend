@@ -152,6 +152,7 @@ import axios from "axios";
 import { Menu, MenuButton, MenuItem, MenuItems,  Listbox,ListboxLabel,ListboxButton,ListboxOptions,ListboxOption, } from '@headlessui/vue'
 import Alert from '../../../components/Alert.vue';
 import Restaurant from './Restaurant.vue'
+import { apiUrl2 } from '@/api/api.js';
 const raiting = [
   { name: "Order By Raiting", with: "", value: "" },
   { name: "5", with: "100", value: 5 },
@@ -200,7 +201,7 @@ export default {
       if(radius.value !== null && selectedRaiting.value.name !== '' && valorLocal.value !== null){
         const { lat, lng} =  valorLocal.value;
            try {
-        const resp = await axios.get("/maps/api/place/nearbysearch/json", {
+        const resp = await axios.get(apiUrl2, {
           params: {
             location: `${lat}, ${lng}`,
             radius: 1000,
