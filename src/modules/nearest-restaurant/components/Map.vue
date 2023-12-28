@@ -14,7 +14,7 @@
   
       const initMap = () => {
         const loader = new Loader({
-          apiKey: "AIzaSyBZsp-0nujrptZmsbuOTkjqq8R-X4G8FQE",
+          apiKey: process.env.API_GOOGLE,
         });
   
         loader.load().then(async () => {
